@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+**Live Demo:** [Deployed on Netlify](https://showgithubrepo.netlify.app)
+
 ## Development Commands
 
 - `npm install` - Install dependencies
