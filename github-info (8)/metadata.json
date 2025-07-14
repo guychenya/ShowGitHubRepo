@@ -1,0 +1,6 @@
+{
+  "name": "GitHub Info",
+  "description": "An intelligent dashboard that searches for GitHub repositories and provides a deep analysis, including README summaries, tech stack, key stats, and a code quality assessment.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}
