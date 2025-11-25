@@ -15,6 +15,7 @@ import { ApiKeyConfig } from './components/ApiKeyConfig';
 import { CollapsibleSection } from './components/CollapsibleSection';
 import { FeatureCard } from './components/FeatureCard';
 import { Tooltip } from './components/Tooltip';
+import { Chat } from './components/Chat';
 import { generateContent, getActiveProvider, setApiKeys, getApiKeys } from './llm-service';
 
 // Helper function to safely parse JSON from a string, even if it's wrapped in text or markdown code blocks.
@@ -286,6 +287,7 @@ export const App: React.FC = () => {
   const [isCodeDropdownOpen, setIsCodeDropdownOpen] = useState(false);
   const [isApiKeyConfigOpen, setIsApiKeyConfigOpen] = useState(false);
   const [showAllSimilarTools, setShowAllSimilarTools] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const codeDropdownRef = useRef<HTMLDivElement>(null);
 
@@ -587,6 +589,24 @@ For similarTools, provide exactly 3 relevant alternatives.`;
     setError(null);
   };
 
+  const handleChatMessage = async (message: string): Promise<string> => {
+    const context = `Repository: ${analysisData.projectName}
+Description: ${analysisData.description}
+Tech Stack: ${analysisData.techStack?.join(', ')}
+Key Features: ${analysisData.keyFeatures?.join(', ')}
+
+User Question: ${message}
+
+Provide a helpful, concise answer based on the repository information above.`;
+
+    try {
+      const response = await generateContent(context);
+      return response;
+    } catch (error) {
+      throw new Error('Failed to get response');
+    }
+  };
+
   const renderContent = () => {
     switch(view) {
       case 'privacy':
@@ -633,6 +653,13 @@ For similarTools, provide exactly 3 relevant alternatives.`;
                       <GithubIcon className="h-4 w-4" />
                       View on GitHub
                     </a>
+                    <button
+                      onClick={() => setIsChatOpen(true)}
+                      className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg text-sm transition-all duration-300 transform hover:scale-105 shadow-lg"
+                    >
+                      <SparklesIcon className="h-4 w-4" />
+                      Ask AI
+                    </button>
                     {analysisData.readmeContent && (
                       <button
                         onClick={() => setIsReadmeVisible(true)}
@@ -994,6 +1021,16 @@ For similarTools, provide exactly 3 relevant alternatives.`;
         onSave={handleSaveApiKeys}
         currentKeys={getApiKeys()}
       />
+
+      {analysisData.projectName && (
+        <Chat
+          isOpen={isChatOpen}
+          onClose={() => setIsChatOpen(false)}
+          repoName={analysisData.projectName}
+          repoContext={JSON.stringify(analysisData)}
+          onSendMessage={handleChatMessage}
+        />
+      )}
       
       <style>
       {`
