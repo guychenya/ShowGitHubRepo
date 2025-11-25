@@ -120,6 +120,11 @@ const ReadmeModal: React.FC<{ isOpen: boolean; onClose: () => void; initialConte
     setContent(initialContent);
     setIsFullLoaded(false);
     setError(null);
+    
+    // Auto-load full README if initial content is empty or too short
+    if (isOpen && initialContent.trim().length < 50) {
+      handleLoadFullReadme();
+    }
   }, [isOpen, initialContent]);
 
   useEffect(() => {
