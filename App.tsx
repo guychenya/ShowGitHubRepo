@@ -633,6 +633,7 @@ Provide a helpful, concise answer. Use markdown formatting, emojis, and code blo
         return (
           <div className="w-full">
             {isLoading.analyzing && <LoadingIndicator />}
+            <ErrorMessage message={error} />
             
             {(analysisData.projectName || Object.keys(analysisData).length > 0) && 
             <div className="animate-fade-in w-full">
