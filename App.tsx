@@ -180,7 +180,7 @@ const ReadmeModal: React.FC<{ isOpen: boolean; onClose: () => void; initialConte
 
   return (
     <div
-      className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-start justify-center z-50 p-4 animate-fade-in-fast overflow-y-auto"
+      className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-start justify-center z-[60] p-4 animate-fade-in-fast overflow-y-auto"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
