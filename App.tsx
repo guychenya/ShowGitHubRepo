@@ -952,14 +952,14 @@ For similarTools, provide exactly 3 relevant alternatives.`;
       <style>
       {`
         .prose-dark { color: #f1f5f9; line-height: 1.75; }
-        .prose-dark p { font-size: 1.125rem; margin-bottom: 1.25em; }
+        .prose-dark p { font-size: 0.9375rem; margin-bottom: 1em; }
         .prose-dark h1, .prose-dark h2, .prose-dark h3, .prose-dark h4, .prose-dark h5, .prose-dark h6 { color: #ffffff; font-weight: 700; margin-top: 1.5em; margin-bottom: 0.75em; letter-spacing: -0.02em; }
-        .prose-dark h1 { font-size: 2.25rem; } .prose-dark h2 { font-size: 1.875rem; } .prose-dark h3 { font-size: 1.5rem; }
+        .prose-dark h1 { font-size: 1.875rem; } .prose-dark h2 { font-size: 1.5rem; } .prose-dark h3 { font-size: 1.25rem; }
         .prose-dark a { color: #f472b6; text-decoration: none; }
         .prose-dark a:hover { text-decoration: underline; }
         .prose-dark strong { color: #ffffff; font-weight: 600; }
         .prose-dark blockquote { margin: 1.5em 0; padding-left: 1em; border-left: 4px solid #475569; color: #cbd5e1; font-style: italic; }
-        .prose-dark ul, .prose-dark ol { margin: 1em 0; padding-left: 2em; font-size: 1.125rem;}
+        .prose-dark ul, .prose-dark ol { margin: 1em 0; padding-left: 2em; font-size: 0.9375rem;}
         .prose-dark ul { list-style-type: disc; } .prose-dark ol { list-style-type: decimal; }
         .prose-dark li { margin-bottom: 0.5em; }
         .prose-dark code { background-color: #374151; color: #f9a8d4; padding: 0.2em 0.4em; margin: 0; font-size: 85%; border-radius: 6px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
