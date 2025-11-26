@@ -967,24 +967,31 @@ Provide a helpful, concise answer. Use markdown formatting, emojis, and code blo
                       0%, 100% { opacity: 0; transform: scale(0); }
                       50% { opacity: 1; transform: scale(1); }
                     }
+                    @keyframes ringRotate {
+                      0% { transform: rotate(0deg); }
+                      100% { transform: rotate(360deg); }
+                    }
                     .bobcat-float { animation: bobcatFloat 3s ease-in-out infinite; }
                     .firework { animation: firework 1.5s ease-out infinite; }
                     .sparkle { animation: sparkle 2s ease-in-out infinite; }
+                    .ring-rotate { animation: ringRotate 3s linear infinite; }
                   `}</style>
-                  <svg className="bobcat-float w-32 h-32 drop-shadow-[0_0_20px_rgba(236,72,153,0.6)]" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="256" cy="256" r="240" fill="#FFD700"/>
-                    <circle cx="256" cy="256" r="200" fill="#FFA500"/>
-                    <ellipse cx="180" cy="220" rx="30" ry="40" fill="#000"/>
-                    <ellipse cx="332" cy="220" rx="30" ry="40" fill="#000"/>
-                    <circle cx="180" cy="215" r="12" fill="#FFF"/>
-                    <circle cx="332" cy="215" r="12" fill="#FFF"/>
-                    <path d="M 200 300 Q 256 340 312 300" stroke="#000" strokeWidth="8" fill="none" strokeLinecap="round"/>
-                    <circle cx="256" cy="280" r="8" fill="#000"/>
-                    <path d="M 140 160 Q 120 120 100 140" stroke="#FFA500" strokeWidth="12" fill="none" strokeLinecap="round"/>
-                    <path d="M 372 160 Q 392 120 412 140" stroke="#FFA500" strokeWidth="12" fill="none" strokeLinecap="round"/>
-                    <ellipse cx="140" cy="260" rx="20" ry="30" fill="#FF6B6B" opacity="0.6"/>
-                    <ellipse cx="372" cy="260" rx="20" ry="30" fill="#FF6B6B" opacity="0.6"/>
-                  </svg>
+                  <div className="relative w-32 h-32 mx-auto">
+                    <svg className="ring-rotate absolute inset-0 w-full h-full" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                      <defs>
+                        <linearGradient id="pinkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="#ec4899"/>
+                          <stop offset="100%" stopColor="#f97316"/>
+                        </linearGradient>
+                      </defs>
+                      <circle cx="60" cy="60" r="55" fill="none" stroke="url(#pinkGradient)" strokeWidth="8" strokeDasharray="20 10" opacity="0.8"/>
+                    </svg>
+                    <div className="bobcat-float absolute inset-0 flex items-center justify-center">
+                      <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg">
+                        <GithubOctocatIcon className="w-14 h-14 text-black" />
+                      </div>
+                    </div>
+                  </div>
                   {[...Array(8)].map((_, i) => (
                     <div
                       key={i}
