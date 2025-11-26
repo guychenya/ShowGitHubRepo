@@ -971,28 +971,19 @@ Provide a helpful, concise answer. Use markdown formatting, emojis, and code blo
                     .firework { animation: firework 1.5s ease-out infinite; }
                     .sparkle { animation: sparkle 2s ease-in-out infinite; }
                   `}</style>
-                  <svg className="bobcat-float" width="120" height="120" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                      <linearGradient id="bobcatGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#ec4899"/>
-                        <stop offset="50%" stopColor="#8b5cf6"/>
-                        <stop offset="100%" stopColor="#f97316"/>
-                      </linearGradient>
-                      <filter id="glow">
-                        <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-                        <feMerge>
-                          <feMergeNode in="coloredBlur"/>
-                          <feMergeNode in="SourceGraphic"/>
-                        </feMerge>
-                      </filter>
-                    </defs>
-                    <circle cx="100" cy="100" r="80" fill="url(#bobcatGrad)" filter="url(#glow)"/>
-                    <path d="M70 80C70 72.268 76.268 66 84 66H116C123.732 66 130 72.268 130 80V95H70V80Z" fill="white"/>
-                    <circle cx="85" cy="85" r="8" fill="#1a1a1a"/>
-                    <circle cx="115" cy="85" r="8" fill="#1a1a1a"/>
-                    <path d="M75 110C75 105.582 78.582 102 83 102H117C121.418 102 125 105.582 125 110V130C125 134.418 121.418 138 117 138H83C78.582 138 75 134.418 75 130V110Z" fill="white"/>
-                    <rect x="85" y="115" width="10" height="10" fill="#ec4899" rx="2"/>
-                    <rect x="105" y="115" width="10" height="10" fill="#ec4899" rx="2"/>
+                  <svg className="bobcat-float w-32 h-32 drop-shadow-[0_0_20px_rgba(236,72,153,0.6)]" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="256" cy="256" r="240" fill="#FFD700"/>
+                    <circle cx="256" cy="256" r="200" fill="#FFA500"/>
+                    <ellipse cx="180" cy="220" rx="30" ry="40" fill="#000"/>
+                    <ellipse cx="332" cy="220" rx="30" ry="40" fill="#000"/>
+                    <circle cx="180" cy="215" r="12" fill="#FFF"/>
+                    <circle cx="332" cy="215" r="12" fill="#FFF"/>
+                    <path d="M 200 300 Q 256 340 312 300" stroke="#000" strokeWidth="8" fill="none" strokeLinecap="round"/>
+                    <circle cx="256" cy="280" r="8" fill="#000"/>
+                    <path d="M 140 160 Q 120 120 100 140" stroke="#FFA500" strokeWidth="12" fill="none" strokeLinecap="round"/>
+                    <path d="M 372 160 Q 392 120 412 140" stroke="#FFA500" strokeWidth="12" fill="none" strokeLinecap="round"/>
+                    <ellipse cx="140" cy="260" rx="20" ry="30" fill="#FF6B6B" opacity="0.6"/>
+                    <ellipse cx="372" cy="260" rx="20" ry="30" fill="#FF6B6B" opacity="0.6"/>
                   </svg>
                   {[...Array(8)].map((_, i) => (
                     <div
