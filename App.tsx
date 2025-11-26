@@ -301,9 +301,7 @@ export const App: React.FC = () => {
   // Check API key on app load
   useEffect(() => {
     const provider = getActiveProvider();
-    if (!provider) {
-      setError("No API key configured. Please add at least one API key (GEMINI_API_KEY, GROQ_API_KEY, or OPENAI_API_KEY) to your .env.local file.");
-    } else {
+    if (provider) {
       console.log(`Using ${provider.toUpperCase()} as LLM provider`);
     }
   }, []);
