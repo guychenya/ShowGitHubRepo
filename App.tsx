@@ -987,6 +987,18 @@ Provide a helpful, concise answer. Use markdown formatting, emojis, and code blo
                         </h1>
                     </div>
                     <div className="flex items-center gap-2">
+                      {/* Active Provider Indicator */}
+                      {(() => {
+                        const provider = getActiveProvider();
+                        if (!provider) return null;
+                        const providerNames = { gemini: 'Gemini', groq: 'Groq', openai: 'OpenAI' };
+                        return (
+                          <div className="flex items-center gap-1.5 bg-slate-800/50 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs">
+                            <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                            <span className="text-slate-300 font-medium hidden sm:inline">{providerNames[provider]}</span>
+                          </div>
+                        );
+                      })()}
                       <button
                         onClick={() => setIsApiKeyConfigOpen(true)}
                         className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white font-medium py-2 px-3 rounded-lg text-sm transition-all duration-300"
