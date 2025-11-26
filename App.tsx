@@ -950,7 +950,78 @@ Provide a helpful, concise answer. Use markdown formatting, emojis, and code blo
           <div className="text-center">
             {view === 'landing' && (
               <header className="my-10">
-                <div className="mb-4 text-6xl animate-bounce">🔍</div>
+                <div className="mb-4 relative inline-block">
+                  <style>{`
+                    @keyframes bobcatFloat {
+                      0%, 100% { transform: translateY(0px) rotate(0deg); }
+                      25% { transform: translateY(-15px) rotate(-5deg); }
+                      50% { transform: translateY(-20px) rotate(0deg); }
+                      75% { transform: translateY(-15px) rotate(5deg); }
+                    }
+                    @keyframes firework {
+                      0% { transform: translate(0, 0) scale(0); opacity: 1; }
+                      50% { opacity: 1; }
+                      100% { transform: translate(var(--tx), var(--ty)) scale(1); opacity: 0; }
+                    }
+                    @keyframes sparkle {
+                      0%, 100% { opacity: 0; transform: scale(0); }
+                      50% { opacity: 1; transform: scale(1); }
+                    }
+                    .bobcat-float { animation: bobcatFloat 3s ease-in-out infinite; }
+                    .firework { animation: firework 1.5s ease-out infinite; }
+                    .sparkle { animation: sparkle 2s ease-in-out infinite; }
+                  `}</style>
+                  <svg className="bobcat-float" width="120" height="120" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <linearGradient id="bobcatGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#ec4899"/>
+                        <stop offset="50%" stopColor="#8b5cf6"/>
+                        <stop offset="100%" stopColor="#f97316"/>
+                      </linearGradient>
+                      <filter id="glow">
+                        <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                        <feMerge>
+                          <feMergeNode in="coloredBlur"/>
+                          <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                      </filter>
+                    </defs>
+                    <circle cx="100" cy="100" r="80" fill="url(#bobcatGrad)" filter="url(#glow)"/>
+                    <path d="M70 80C70 72.268 76.268 66 84 66H116C123.732 66 130 72.268 130 80V95H70V80Z" fill="white"/>
+                    <circle cx="85" cy="85" r="8" fill="#1a1a1a"/>
+                    <circle cx="115" cy="85" r="8" fill="#1a1a1a"/>
+                    <path d="M75 110C75 105.582 78.582 102 83 102H117C121.418 102 125 105.582 125 110V130C125 134.418 121.418 138 117 138H83C78.582 138 75 134.418 75 130V110Z" fill="white"/>
+                    <rect x="85" y="115" width="10" height="10" fill="#ec4899" rx="2"/>
+                    <rect x="105" y="115" width="10" height="10" fill="#ec4899" rx="2"/>
+                  </svg>
+                  {[...Array(8)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="firework absolute top-1/2 left-1/2 w-2 h-2 rounded-full"
+                      style={{
+                        background: ['#ec4899', '#f97316', '#8b5cf6', '#fbbf24'][i % 4],
+                        '--tx': `${Math.cos(i * Math.PI / 4) * 80}px`,
+                        '--ty': `${Math.sin(i * Math.PI / 4) * 80}px`,
+                        animationDelay: `${i * 0.2}s`
+                      } as React.CSSProperties}
+                    />
+                  ))}
+                  {[...Array(12)].map((_, i) => (
+                    <div
+                      key={`s${i}`}
+                      className="sparkle absolute"
+                      style={{
+                        top: `${20 + Math.random() * 60}%`,
+                        left: `${20 + Math.random() * 60}%`,
+                        width: '4px',
+                        height: '4px',
+                        background: '#fbbf24',
+                        borderRadius: '50%',
+                        animationDelay: `${Math.random() * 2}s`
+                      }}
+                    />
+                  ))}
+                </div>
                 <h1 className="text-3xl sm:text-5xl font-bold text-white mb-3 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-orange-500" style={{textShadow: '0 0 20px rgba(236,72,153,0.5)'}}>Deep Dive into Any GitHub Repo</h1>
                 <p className="text-lg text-slate-300 font-medium mb-2">Get a complete analysis—from tech stack to code quality—in seconds.</p>
                 <p className="text-sm text-slate-400">✨ Powered by AI • 🚀 Lightning Fast • 🎯 Accurate Insights</p>
