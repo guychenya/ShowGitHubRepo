@@ -1,6 +1,22 @@
-# Changes Made - Multi-LLM Support
+# Changes Log
 
-## Summary
+## Latest Updates (Nov 25, 2025)
+
+### Chat Enhancements
+- **Copy functionality**: Hover-to-reveal copy button on all messages with visual feedback
+- **Rich markdown support**: Enhanced rendering for headings, lists, tables, code blocks, images, blockquotes
+- **Line breaks**: Added `remark-breaks` plugin for proper formatting
+- **Better typography**: Improved word wrapping, line heights, and spacing
+
+### README Display Fix
+- **HTML support**: Added `rehype-raw` plugin to render HTML tags in README files
+- **Image display**: GitHub README images now display correctly (e.g., badges, logos, centered images)
+
+## Previous Updates
+
+### Multi-LLM Support
+
+#### Summary
 Added support for multiple LLM providers (Gemini, Groq, and OpenAI) with automatic fallback.
 
 ## New Files Created

@@ -122,14 +122,16 @@ The app supports multiple AI providers with automatic fallback:
 - **Build Tool**: Vite
 - **AI Providers**: Google Gemini, Groq, OpenAI
 - **APIs**: GitHub REST API for real-time stats
-- **Markdown**: react-markdown with GitHub Flavored Markdown
+- **Markdown**: react-markdown with GitHub Flavored Markdown, rehype-raw for HTML support
 
 ## 📝 Features
 
 - 🔍 AI-powered repository search
 - 📊 Real-time GitHub stats (stars, forks, issues)
 - 🎯 Code quality analysis with scores
-- 📚 README viewer with full content loading
+- 📚 README viewer with full HTML/image support
+- 💬 AI chat assistant with rich markdown rendering
+- 📋 Copy functionality for chat messages
 - 🔗 Similar tools recommendations
 - 🎨 Beautiful, responsive UI with dark theme
 - ⚡ Fast and lightweight

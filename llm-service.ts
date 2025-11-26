@@ -6,40 +6,61 @@ interface LLMResponse {
   text: string;
 }
 
-// Runtime API keys (from localStorage)
-let runtimeKeys = {
-  gemini: localStorage.getItem('GEMINI_API_KEY') || undefined,
-  groq: localStorage.getItem('GROQ_API_KEY') || undefined,
-  openai: localStorage.getItem('OPENAI_API_KEY') || undefined
+// Runtime API keys (from localStorage) - initialized lazily
+let runtimeKeys: { gemini?: string; groq?: string; openai?: string } = {};
+
+// Initialize keys from localStorage safely
+const initializeKeys = () => {
+  if (typeof window !== 'undefined' && window.localStorage) {
+    runtimeKeys = {
+      gemini: localStorage.getItem('GEMINI_API_KEY') || undefined,
+      groq: localStorage.getItem('GROQ_API_KEY') || undefined,
+      openai: localStorage.getItem('OPENAI_API_KEY') || undefined
+    };
+  }
 };
 
+// Initialize on first access
+initializeKeys();
+
 export const setApiKeys = (keys: { gemini?: string; groq?: string; openai?: string }) => {
-  if (keys.gemini) {
-    localStorage.setItem('GEMINI_API_KEY', keys.gemini);
-    runtimeKeys.gemini = keys.gemini;
+  if (typeof window === 'undefined' || !window.localStorage) {
+    console.error('localStorage is not available');
+    return;
+  }
+
+  if (keys.gemini && keys.gemini.trim()) {
+    localStorage.setItem('GEMINI_API_KEY', keys.gemini.trim());
+    runtimeKeys.gemini = keys.gemini.trim();
   } else {
     localStorage.removeItem('GEMINI_API_KEY');
     runtimeKeys.gemini = undefined;
   }
   
-  if (keys.groq) {
-    localStorage.setItem('GROQ_API_KEY', keys.groq);
-    runtimeKeys.groq = keys.groq;
+  if (keys.groq && keys.groq.trim()) {
+    localStorage.setItem('GROQ_API_KEY', keys.groq.trim());
+    runtimeKeys.groq = keys.groq.trim();
   } else {
     localStorage.removeItem('GROQ_API_KEY');
     runtimeKeys.groq = undefined;
   }
   
-  if (keys.openai) {
-    localStorage.setItem('OPENAI_API_KEY', keys.openai);
-    runtimeKeys.openai = keys.openai;
+  if (keys.openai && keys.openai.trim()) {
+    localStorage.setItem('OPENAI_API_KEY', keys.openai.trim());
+    runtimeKeys.openai = keys.openai.trim();
   } else {
     localStorage.removeItem('OPENAI_API_KEY');
     runtimeKeys.openai = undefined;
   }
 };
 
-export const getApiKeys = () => ({ ...runtimeKeys });
+export const getApiKeys = () => {
+  // Reinitialize from localStorage if keys are empty
+  if (!runtimeKeys.gemini && !runtimeKeys.groq && !runtimeKeys.openai) {
+    initializeKeys();
+  }
+  return { ...runtimeKeys };
+};
 
 const getApiKey = (provider: LLMProvider): string | undefined => {
   // Check runtime keys first (from localStorage), then env vars

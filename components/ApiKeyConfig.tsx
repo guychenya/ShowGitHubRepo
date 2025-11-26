@@ -13,74 +13,21 @@ export const ApiKeyConfig: React.FC<ApiKeyConfigProps> = ({ isOpen, onClose, onS
   const [groqKey, setGroqKey] = useState(currentKeys.groq || '');
   const [openaiKey, setOpenaiKey] = useState(currentKeys.openai || '');
   const [saved, setSaved] = useState(false);
-  const [validating, setValidating] = useState<string | null>(null);
-  const [validationResults, setValidationResults] = useState<{
-    gemini?: boolean;
-    groq?: boolean;
-    openai?: boolean;
-  }>({});
-
-  const validateGeminiKey = async (key: string): Promise<boolean> => {
-    try {
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${key}`);
-      return response.ok;
-    } catch {
-      return false;
-    }
-  };
-
-  const validateGroqKey = async (key: string): Promise<boolean> => {
-    try {
-      const response = await fetch('https://api.groq.com/openai/v1/models', {
-        headers: { 'Authorization': `Bearer ${key}` }
-      });
-      return response.ok;
-    } catch {
-      return false;
-    }
-  };
-
-  const validateOpenAIKey = async (key: string): Promise<boolean> => {
-    try {
-      const response = await fetch('https://api.openai.com/v1/models', {
-        headers: { 'Authorization': `Bearer ${key}` }
-      });
-      return response.ok;
-    } catch {
-      return false;
-    }
-  };
-
-  const handleValidate = async (provider: 'gemini' | 'groq' | 'openai') => {
-    setValidating(provider);
-    let isValid = false;
-
-    try {
-      switch (provider) {
-        case 'gemini':
-          if (geminiKey) isValid = await validateGeminiKey(geminiKey);
-          break;
-        case 'groq':
-          if (groqKey) isValid = await validateGroqKey(groqKey);
-          break;
-        case 'openai':
-          if (openaiKey) isValid = await validateOpenAIKey(openaiKey);
-          break;
-      }
-    } catch {
-      isValid = false;
-    }
-
-    setValidationResults(prev => ({ ...prev, [provider]: isValid }));
-    setValidating(null);
-  };
 
   const handleSave = () => {
-    onSave({
+    const keys = {
       gemini: geminiKey.trim() || undefined,
       groq: groqKey.trim() || undefined,
       openai: openaiKey.trim() || undefined
-    });
+    };
+    
+    // Check if at least one key is provided
+    if (!keys.gemini && !keys.groq && !keys.openai) {
+      alert('Please enter at least one API key');
+      return;
+    }
+    
+    onSave(keys);
     setSaved(true);
     setTimeout(() => {
       setSaved(false);
@@ -106,32 +53,15 @@ export const ApiKeyConfig: React.FC<ApiKeyConfigProps> = ({ isOpen, onClose, onS
         <div className="space-y-4 mb-6">
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">
-              Google Gemini API Key <span className="text-green-400">(Free)</span>
+              Google Gemini API Key <span className="text-green-400">(Free, Recommended)</span>
             </label>
-            <div className="flex gap-2">
-              <input
-                type="password"
-                value={geminiKey}
-                onChange={(e) => {
-                  setGeminiKey(e.target.value);
-                  setValidationResults(prev => ({ ...prev, gemini: undefined }));
-                }}
-                placeholder="AIza..."
-                className="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-pink-500"
-              />
-              <button
-                onClick={() => handleValidate('gemini')}
-                disabled={!geminiKey || validating === 'gemini'}
-                className="px-4 py-2 bg-slate-700 hover:bg-slate-600 disabled:bg-slate-800 disabled:cursor-not-allowed text-white rounded-lg transition-colors text-sm font-medium"
-              >
-                {validating === 'gemini' ? 'Validating...' : 'Validate'}
-              </button>
-            </div>
-            {validationResults.gemini !== undefined && (
-              <p className={`text-xs mt-1 ${validationResults.gemini ? 'text-green-400' : 'text-red-400'}`}>
-                {validationResults.gemini ? '✓ Valid API key' : '✗ Invalid API key'}
-              </p>
-            )}
+            <input
+              type="password"
+              value={geminiKey}
+              onChange={(e) => setGeminiKey(e.target.value)}
+              placeholder="AIza..."
+              className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-pink-500"
+            />
             <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" className="text-xs text-pink-400 hover:underline mt-1 inline-block">
               Get your key →
             </a>
@@ -141,30 +71,13 @@ export const ApiKeyConfig: React.FC<ApiKeyConfigProps> = ({ isOpen, onClose, onS
             <label className="block text-sm font-medium text-slate-300 mb-2">
               Groq API Key <span className="text-green-400">(Free)</span>
             </label>
-            <div className="flex gap-2">
-              <input
-                type="password"
-                value={groqKey}
-                onChange={(e) => {
-                  setGroqKey(e.target.value);
-                  setValidationResults(prev => ({ ...prev, groq: undefined }));
-                }}
-                placeholder="gsk_..."
-                className="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-pink-500"
-              />
-              <button
-                onClick={() => handleValidate('groq')}
-                disabled={!groqKey || validating === 'groq'}
-                className="px-4 py-2 bg-slate-700 hover:bg-slate-600 disabled:bg-slate-800 disabled:cursor-not-allowed text-white rounded-lg transition-colors text-sm font-medium"
-              >
-                {validating === 'groq' ? 'Validating...' : 'Validate'}
-              </button>
-            </div>
-            {validationResults.groq !== undefined && (
-              <p className={`text-xs mt-1 ${validationResults.groq ? 'text-green-400' : 'text-red-400'}`}>
-                {validationResults.groq ? '✓ Valid API key' : '✗ Invalid API key'}
-              </p>
-            )}
+            <input
+              type="password"
+              value={groqKey}
+              onChange={(e) => setGroqKey(e.target.value)}
+              placeholder="gsk_..."
+              className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-pink-500"
+            />
             <a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer" className="text-xs text-pink-400 hover:underline mt-1 inline-block">
               Get your key →
             </a>
@@ -174,30 +87,13 @@ export const ApiKeyConfig: React.FC<ApiKeyConfigProps> = ({ isOpen, onClose, onS
             <label className="block text-sm font-medium text-slate-300 mb-2">
               OpenAI API Key <span className="text-yellow-400">(Paid)</span>
             </label>
-            <div className="flex gap-2">
-              <input
-                type="password"
-                value={openaiKey}
-                onChange={(e) => {
-                  setOpenaiKey(e.target.value);
-                  setValidationResults(prev => ({ ...prev, openai: undefined }));
-                }}
-                placeholder="sk-..."
-                className="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-pink-500"
-              />
-              <button
-                onClick={() => handleValidate('openai')}
-                disabled={!openaiKey || validating === 'openai'}
-                className="px-4 py-2 bg-slate-700 hover:bg-slate-600 disabled:bg-slate-800 disabled:cursor-not-allowed text-white rounded-lg transition-colors text-sm font-medium"
-              >
-                {validating === 'openai' ? 'Validating...' : 'Validate'}
-              </button>
-            </div>
-            {validationResults.openai !== undefined && (
-              <p className={`text-xs mt-1 ${validationResults.openai ? 'text-green-400' : 'text-red-400'}`}>
-                {validationResults.openai ? '✓ Valid API key' : '✗ Invalid API key'}
-              </p>
-            )}
+            <input
+              type="password"
+              value={openaiKey}
+              onChange={(e) => setOpenaiKey(e.target.value)}
+              placeholder="sk-..."
+              className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-pink-500"
+            />
             <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" className="text-xs text-pink-400 hover:underline mt-1 inline-block">
               Get your key →
             </a>
@@ -205,8 +101,11 @@ export const ApiKeyConfig: React.FC<ApiKeyConfigProps> = ({ isOpen, onClose, onS
         </div>
 
         <div className="bg-slate-800/50 rounded-lg p-4 mb-6">
-          <p className="text-sm text-slate-300">
+          <p className="text-sm text-slate-300 mb-2">
             <strong className="text-white">Note:</strong> Keys are stored in your browser's local storage and never sent to any server except the respective AI provider.
+          </p>
+          <p className="text-xs text-slate-400">
+            Keys will be validated when you make your first analysis. If a key is invalid, you'll see an error message.
           </p>
         </div>
 
