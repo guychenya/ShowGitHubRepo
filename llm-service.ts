@@ -119,7 +119,10 @@ const callGroq = async (prompt: string, apiKey: string): Promise<LLMResponse> =>
     })
   });
   
-  if (!response.ok) throw new Error(`Groq API error: ${response.status}`);
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(`Groq API error (${response.status}): ${errorData.error?.message || response.statusText}`);
+  }
   const data = await response.json();
   return { text: data.choices[0].message.content };
 };
@@ -139,7 +142,10 @@ const callOpenAI = async (prompt: string, apiKey: string): Promise<LLMResponse> 
     })
   });
   
-  if (!response.ok) throw new Error(`OpenAI API error: ${response.status}`);
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(`OpenAI API error (${response.status}): ${errorData.error?.message || response.statusText}`);
+  }
   const data = await response.json();
   return { text: data.choices[0].message.content };
 };
