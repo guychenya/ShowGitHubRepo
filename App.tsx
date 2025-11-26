@@ -592,6 +592,11 @@ For similarTools, provide exactly 3 relevant alternatives.`;
   const handleSaveApiKeys = (keys: { gemini?: string; groq?: string; openai?: string }) => {
     setApiKeys(keys);
     setError(null);
+    // Force re-check of provider
+    const provider = getActiveProvider();
+    if (provider) {
+      console.log(`API keys saved. Using ${provider.toUpperCase()} as LLM provider`);
+    }
   };
 
   const handleChatMessage = async (message: string): Promise<string> => {

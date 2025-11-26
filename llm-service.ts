@@ -63,6 +63,11 @@ export const getApiKeys = () => {
 };
 
 const getApiKey = (provider: LLMProvider): string | undefined => {
+  // Reinitialize from localStorage if all keys are empty
+  if (!runtimeKeys.gemini && !runtimeKeys.groq && !runtimeKeys.openai) {
+    initializeKeys();
+  }
+  
   // Check runtime keys first (from localStorage), then env vars
   switch (provider) {
     case 'gemini':
